@@ -1,23 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+import GitHubCard from './components/GitHubCard';
+import {useEffect, useState} from 'react'
+
 
 function App() {
+  let [userInfo, setUserInfo] = useState(null)
+  const url = 'https://api.github.com/users/MgARL'
+  useEffect( async () => {
+      let response = await fetch(url)
+      let parsedRes = await response.json()
+
+      setUserInfo(parsedRes)
+  },[])
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {userInfo ? <GitHubCard  userInfo={userInfo}/> : null}
     </div>
   );
 }
